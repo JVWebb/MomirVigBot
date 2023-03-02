@@ -24,7 +24,14 @@ def get_card(cmc):
 
 def yugioh_bs(level):
     if level > 0 and level < 13:
-        usingURL = "https://db.ygoprodeck.com/api/v7/cardinfo.php?level=" + str(level)
+        if level < 7:
+            if random.randint(0,100) < 15:
+                extension = "link="
+            else:
+                extension = "level="
+        else:
+            extension = "level="
+        usingURL = "https://db.ygoprodeck.com/api/v7/cardinfo.php?" + extension + str(level)
         card = requests.get(usingURL)
         cardinfo = json.loads(card.content)["data"]
         currentcard = cardinfo[random.randint(0,len(cardinfo))]
