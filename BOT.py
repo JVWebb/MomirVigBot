@@ -12,12 +12,17 @@ bot = commands.Bot(command_prefix="", case_insensitive=True, description=descrip
 
 def get_card(cmc):
     if cmc < 17 and not cmc < 0:
-        cmccode = ("game:paper+type:creature+cmc=" + str(cmc))
+        cmccode = ("-furry game:paper+type:creature+cmc=" + str(cmc))
         usingURL = "https://api.scryfall.com/cards/random?q=" + cmccode
         card = requests.get(usingURL)
         cardinfo = json.loads(card.content)
         print("got mtg card: " + cardinfo["name"] + "\n")
-        return cardinfo["name"], cardinfo["image_uris"]["normal"]
+        if "image_uris" in cardinfo:
+            return cardinfo["name"], cardinfo["image_uris"]["normal"]
+        elif "card_faces" in cardinfo:
+            return cardinfo["name"], cardinfo["card_faces"][0]["image_uris"]["normal"]
+        elif "name" in cardinfo:
+            return cardinfo["name"], ""
     if cmc > 16:
         return ("No creature is powerful enough to warrant more than 16 mana!", "")
     else:
