@@ -5,10 +5,11 @@ import json
 import random
 
 intents = discord.Intents.default()
+intents.message_content = True
 
 description = '''Momir Vig will give you a random creature with a given mana value.'''
 
-bot = commands.Bot(command_prefix="", case_insensitive=True, description=description, intents=intents)
+bot = commands.Bot(command_prefix="!", case_insensitive=True, description=description, intents=intents)
 
 def get_card(cmc):
     if cmc < 17 and not cmc < 0:
